@@ -82,11 +82,13 @@
       height: 100vh;
       display: none;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       padding: 20px;
       box-sizing: border-box;
       overflow-y: auto;
+      scroll-behavior: smooth;
+      padding-bottom: 100px; /* Ensure space at the bottom for mobile */
     }
 
     .active {
@@ -94,7 +96,7 @@
     }
 
     h1 {
-      font-size: 2.2em;
+      font-size: 2.8em;
       margin-bottom: 20px;
       font-family: 'Great Vibes', cursive;
       animation: fadeInDown 2s ease-out;
@@ -155,7 +157,6 @@
       background: white;
       padding: 10px;
       border-radius: 12px;
-      max-width: 80%;
     }
 
     .gift-row {
@@ -176,31 +177,20 @@
     }
 
     audio {
-      margin: 10px 0;
+      margin-top: 10px;
       width: 90%;
-      max-width: 350px;
+      max-width: 400px;
     }
 
     h2 {
       font-family: 'Segoe UI', sans-serif;
       color: #ff3366;
-      margin-top: 20px;
+      margin-top: 30px;
+      font-size: 1.5em;
     }
 
     .btn-group {
-      margin-top: 20px;
-    }
-
-    @media (max-width: 480px) {
-      h1 {
-        font-size: 1.8em;
-      }
-      h2 {
-        font-size: 1.2em;
-      }
-      .qr-code {
-        width: 70%;
-      }
+      margin-top: 30px;
     }
   </style>
 </head>
@@ -218,7 +208,7 @@
   <p>
     Happy Birthday to You the Future Nurse.<br>
     Many Many Happy Returns of the Day.<br><br>
-    I wish you all dreams comes true.<br>
+    I wish you all dreams comes true<br>
     May your day be filled with love, laughter, and sweet memories. 💖<br>
     On this special day, I just want you to know how much you mean to me.
   </p>
@@ -235,7 +225,8 @@
   <h1>🎉 Scan Me 🎉</h1>
   <p>This QR code has something special from me — a voice straight from my heart ❤️</p>
 
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://subhoalgtm.github.io/Surprise/message.mp3" class="qr-code" alt="QR Code to Voice Note">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://subhoalgtm.github.io/Surprise/message.mp3"
+       class="qr-code" width="200" alt="QR Code to Voice Note">
 
   <h2>🎁 Birthday Wishes</h2>
   <audio controls>
@@ -269,10 +260,6 @@
   function nextPage() {
     document.getElementById('page1').classList.remove('active');
     document.getElementById('page2').classList.add('active');
-    if (!bgMusic.paused) {
-      bgMusic.pause();
-      bgMusic.currentTime = 0;
-    }
   }
 
   function backPage() {
@@ -281,7 +268,7 @@
     bgMusic.play().catch(() => {});
   }
 
-  // Stop background music when any page 2 audio starts playing
+  // Pause background music when audio on page 2 plays
   document.addEventListener("DOMContentLoaded", () => {
     const page2Audios = document.querySelectorAll('#page2 audio');
     page2Audios.forEach(audio => {
