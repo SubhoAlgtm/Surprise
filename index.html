@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Birthday Dona 🎉</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
   <style>
     html, body {
       margin: 0;
@@ -175,8 +175,6 @@
 
     audio {
       margin-top: 10px;
-      max-width: 300px;
-      width: 100%;
     }
 
     h2 {
@@ -188,25 +186,6 @@
     .btn-group {
       margin-top: 20px;
     }
-
-    @media screen and (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
-
-      .intro-page h2 {
-        font-size: 1.8em;
-      }
-
-      .gift-row {
-        flex-direction: column;
-      }
-
-      .subhojit-img {
-        width: 60px;
-        height: 60px;
-      }
-    }
   </style>
 </head>
 <body>
@@ -217,7 +196,7 @@
   <button class="intro-button" onclick="startSurprise()">Let's Begin</button>
 </div>
 
-<!-- Page 1 -->
+<!-- Page 1: Birthday Message -->
 <div class="page" id="page1">
   <h1>🎂 Happy Birthday Dona 🎂</h1>
   <p>
@@ -233,18 +212,22 @@
   </div>
 </div>
 
-<!-- Page 2 -->
+<!-- Page 2: QR Code & Audio -->
 <div class="page" id="page2">
-  <h1>🎉 Scan Me 🎉</h1>
-  <p>This QR code has something special from me — a voice straight from my heart ❤️</p>
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://subhoalgtm.github.io/Surprise/message.m4a" class="qr-code" alt="QR Code">
+  <h1 id="Scan">🎉 Scan Me 🎉</h1>
+  <p id="second">This QR code has something special from me — a voice straight from my heart ❤️</p>
 
+  <!-- QR Code -->
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://subhoalgtm.github.io/Surprise/message.mp3" class="qr-code" width="200" alt="QR Code to Voice Note">
+
+  <!-- Birthday Wishes Audio -->
   <h2>🎁 Birthday Wishes</h2>
   <audio controls>
-    <source src="message.mp3" type="audio/mp4">
+    <source src="message.mp3" type="audio/mpeg">
     Your browser does not support the audio element.
   </audio>
 
+  <!-- Song -->
   <h2>🎶 Dedicated to You</h2>
   <audio controls>
     <source src="gaane gaane cover.mp3" type="audio/mpeg">
@@ -260,9 +243,10 @@
 <audio id="bg-music" src="DonaBGM.mp3" preload="auto" loop></audio>
 
 <script>
+  const bgMusic = document.getElementById('bg-music');
+
   function startSurprise() {
-    const audio = document.getElementById('bg-music');
-    audio.play().catch(() => {});
+    bgMusic.play().catch(() => {});
     document.getElementById('introPage').style.display = 'none';
     document.getElementById('page1').classList.add('active');
   }
@@ -270,22 +254,21 @@
   function nextPage() {
     document.getElementById('page1').classList.remove('active');
     document.getElementById('page2').classList.add('active');
+
+    // Pause background music if any audio plays
+    const audios = document.querySelectorAll('#page2 audio');
+    audios.forEach(audio => {
+      audio.addEventListener('play', () => {
+        if (!bgMusic.paused) bgMusic.pause();
+      });
+    });
   }
 
   function backPage() {
     document.getElementById('page2').classList.remove('active');
     document.getElementById('page1').classList.add('active');
+    bgMusic.play().catch(() => {});
   }
-
-  // Stop background music if other audio is played
-  document.querySelectorAll('audio').forEach(audio => {
-    audio.addEventListener('play', function () {
-      const bgMusic = document.getElementById('bg-music');
-      if (this !== bgMusic && !bgMusic.paused) {
-        bgMusic.pause();
-      }
-    });
-  });
 </script>
 
 </body>
